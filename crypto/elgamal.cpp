@@ -4,8 +4,6 @@
 #include <string>
 
 Elgamal::Elgamal(){}
-
-
 Elgamal::~Elgamal(){}
 
 
