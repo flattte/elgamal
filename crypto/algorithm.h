@@ -11,9 +11,20 @@
 using namespace boost::random;
 using namespace boost::multiprecision;
 typedef boost::multiprecision::cpp_int cpp_int;
-
 static boost::random::mt19937 gen(clock());
 
+
+cpp_int getPrime(){
+    mt11213b base_gen(clock());
+    independent_bits_engine<mt11213b, 512, cpp_int> gen(base_gen);
+
+    cpp_int prime;
+    do{
+        prime = gen();
+    } while( !miller_rabin_test(prime, 25));
+
+    return prime;
+}
 
 
 template<typename T>
@@ -105,19 +116,4 @@ void seedRNG(){
 cpp_int getRN(cpp_int l, cpp_int u){
     boost::random::uniform_int_distribution<cpp_int> dist(l, u);
     return dist(gen);
-}
-
-
-cpp_int getPrime(){
-    
-    mt11213b base_gen(clock());
-    independent_bits_engine<mt11213b, 512, cpp_int> gen(base_gen);
-
-    cpp_int prime;
-
-    do{
-        prime = gen();
-    } while( !miller_rabin_test(prime, 25));
-
-    return prime;
 }

@@ -15,7 +15,6 @@ std::pair<lg_key, lg_key> Elgamal::keyGen(){
     cpp_int q = (p - 1)/2;
     cpp_int g = 0;
 
-    // g
     while(true){
         g = getRN(2, p-1);
         if (_gcd(g, q) == 1){
@@ -23,7 +22,7 @@ std::pair<lg_key, lg_key> Elgamal::keyGen(){
                 break;
         }
     }
-    // x
+
     cpp_int x= 0;
     while(true){ 
         x = getRN(2, p -1);
@@ -33,7 +32,6 @@ std::pair<lg_key, lg_key> Elgamal::keyGen(){
 
     cpp_int a = fastExpMod(g, x, p);
     lg_key pub(g, a, p);
-
     lg_key priv(g, x, p);
 
     return std::make_pair(pub, priv);
@@ -65,7 +63,6 @@ cpp_int Elgamal::decrypt(lg_key priv, std::pair<cpp_int, cpp_int> msg) const {
     cpp_int s_multiplicative_inverse = multiplicativeInverse(shared_secret, priv.p);
     
     M = (M * s_multiplicative_inverse) % priv.p;
-
     return M;
 }
 
