@@ -8,30 +8,36 @@
 typedef boost::multiprecision::cpp_int cpp_int;
 
 int main(){
-
-    // cpp_int b = 11;
-    // cpp_int x = 1003122100;
-    // cpp_int m = 907381273289330;
-    // cpp_int res = fastExpMod(b, x, m);
-    // std::cout << res << "\n";
-
-    // int gcd = _gcd(100, 10);
-    // std::cout << gcd << "\n";
     
-    // gcd = _gcd(21, 15);
-    // std::cout << gcd << "\n";
+    std::pair<lg_key, lg_key> keys = Elgamal::keyGen();
 
-    // gcd = _gcd(91, 17);
-    // std::cout << gcd << "\n";
+    // std::cout << "pub ";
+    // Elgamal::printHex(keys.first.g);
+    // Elgamal::printHex(keys.first.x);
+    // Elgamal::printHex(keys.first.p);
 
-    // cpp_int a, g;
-    // cpp_int k = extendedEuclid(static_cast<cpp_int>(78), static_cast<cpp_int>(20), a ,g);
-    // std::cout << a << ' ' << b; 
+    // std::cout << "priv ";
+    // Elgamal::printHex(keys.second.g);
+    // Elgamal::printHex(keys.second.x);
+    // Elgamal::printHex(keys.second.p);
 
-    cpp_int l = 100;
-    cpp_int u = 100000;
-    cpp_int a = getPrime();
-    std::cout << std::hex << a <<std::endl;
-    Elgamal::printHex(a, 16);
-    
+
+    cpp_int msg =278362135621361736218;
+    std::cout << "true plaintext :: "; 
+    Elgamal::printHex(msg, 16);
+    std::cout << "\n\n";
+
+    Elgamal engine;
+    std::pair<cpp_int, cpp_int> cipher = engine.encrypt(msg, keys.first);
+
+    std::cout << "ciphertext :: ";
+    Elgamal::printHex(cipher.second, 16);
+    std::cout << "\n\n";
+    std::cout << cipher.first;
+
+    cpp_int plaintext = engine.decrypt(keys.second, cipher);
+    std::cout << "plaintext ::";
+    Elgamal::printHex(plaintext, 16);
+    std::cout << "\n\n";
+
 }

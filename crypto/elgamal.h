@@ -12,15 +12,17 @@ struct lg_key {
 };
 
 
+
 class Elgamal {
     private:
-        static std::pair<lg_key, lg_key> keyGen();
         cpp_int hold_M;
         cpp_int hold_C;
 
     public:
         Elgamal();
         ~Elgamal();
+
+        static std::pair<lg_key, lg_key> keyGen();
 
         static void printHex(const cpp_int& num, size_t row);
         void setM(const cpp_int m);

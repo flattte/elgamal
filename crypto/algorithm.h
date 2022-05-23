@@ -94,12 +94,13 @@ T multiplicativeInverse(T a, T m){
     }
 
     return x < 0 ? x + m : x;
-
 }
+
 
 void seedRNG(){
     gen.seed(static_cast<unsigned int>(std::time(0)));
 }
+
 
 cpp_int getRN(cpp_int l, cpp_int u){
     boost::random::uniform_int_distribution<cpp_int> dist(l, u);

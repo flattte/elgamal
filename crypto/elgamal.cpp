@@ -3,6 +3,10 @@
 #include <sstream>
 #include <string>
 
+Elgamal::Elgamal(){}
+
+
+Elgamal::~Elgamal(){}
 
 
 std::pair<lg_key, lg_key> Elgamal::keyGen(){ 
@@ -20,8 +24,7 @@ std::pair<lg_key, lg_key> Elgamal::keyGen(){
         }
     }
     // x
-    cpp_int x;
-    x = 0;
+    cpp_int x= 0;
     while(true){ 
         x = getRN(2, p -1);
         if(_gcd(x, p) == 1)
@@ -37,38 +40,34 @@ std::pair<lg_key, lg_key> Elgamal::keyGen(){
 }
 
 
+std::pair<cpp_int, cpp_int> Elgamal::encrypt(cpp_int M, const lg_key pub) const {
+    cpp_int public_key = pub.x;
 
-std::pair<cpp_int, cpp_int> Elgamal::encrypt(cpp_int M, const lg_key key) const {
-
-    cpp_int y = 0;
+    cpp_int y = 0; // local random number to raise msg to
     do{
-        y = getRN(static_cast<cpp_int>(2), key.p - 1);
-    }  while(_gcd(y, key.p) != 1);
+        y = getRN(static_cast<cpp_int>(2), pub.p - 1);
+    }  while(_gcd(y, pub.p) != 1);
 
-    cpp_int B = fastExpMod(key.g, key.x, key.p);
+    cpp_int B = fastExpMod(pub.g, y, pub.p);
+    cpp_int s = fastExpMod(public_key, y, pub.p);
 
-    cpp_int s = fastExpMod(B, y, key.p);
-    cpp_int A = fastExpMod(key.g, y, key.p);
-
-    M = M * s;
-    return std::make_pair(A, M);
+    M = (M * s) % pub.p; //cipertext
+    return std::make_pair(B, M);
 }
 
 
-
-
 cpp_int Elgamal::decrypt(lg_key priv, std::pair<cpp_int, cpp_int> msg) const {
-    cpp_int A = msg.first;
+    cpp_int private_key = priv.x;
+    cpp_int B = msg.first;
     cpp_int M = msg.second;
 
-    cpp_int shared_secret = fastExpMod(A, priv.x, priv.p);
+    cpp_int shared_secret = fastExpMod(B, private_key, priv.p);
     cpp_int s_multiplicative_inverse = multiplicativeInverse(shared_secret, priv.p);
     
     M = (M * s_multiplicative_inverse) % priv.p;
 
     return M;
 }
-
 
 
 void Elgamal::printHex(const cpp_int& num, size_t row=8){
@@ -89,11 +88,9 @@ void Elgamal::printHex(const cpp_int& num, size_t row=8){
 }
 
 
-
 void Elgamal::setM(cpp_int m){
     hold_M = m;
 }
-
 
 
 void Elgamal::setC(cpp_int c){
@@ -101,11 +98,9 @@ void Elgamal::setC(cpp_int c){
 }
 
 
-
 cpp_int Elgamal::getM() const {
     return hold_M;
 }
-
 
 
 cpp_int Elgamal::getC() const {
