@@ -21,47 +21,47 @@ std::pair<lg_key, lg_key> Elgamal::keyGen(){
         }
     }
 
-    cpp_int x= 0;
+    cpp_int b= 0;
     while(true){ 
-        x = getRN(2, p -1);
-        if(_gcd(x, p) == 1)
+        b = getRN(2, p -1);
+        if(_gcd(b, p) == 1)
             break;
     }
 
-    cpp_int a = fastExpMod(g, x, p);
-    lg_key pub(g, a, p);
-    lg_key priv(g, x, p);
+    cpp_int B = fastExpMod(g, b, p);
+    lg_key pub(g, B, p);
+    lg_key priv(g, b, p);
 
     return std::make_pair(pub, priv);
 }
 
 
-std::pair<cpp_int, cpp_int> Elgamal::encrypt(cpp_int M, const lg_key pub) const {
+std::pair<cpp_int, cpp_int> Elgamal::encrypt(cpp_int m, const lg_key pub) const {
     cpp_int public_key = pub.x;
 
-    cpp_int y = 0; // local random number to raise msg to
+    cpp_int a = 0; // local random number to raise msg to
     do{
-        y = getRN(static_cast<cpp_int>(2), pub.p - 1);
-    }  while(_gcd(y, pub.p) != 1);
+        a = getRN(static_cast<cpp_int>(2), pub.p - 1);
+    }  while(_gcd(a, pub.p) != 1);
 
-    cpp_int B = fastExpMod(pub.g, y, pub.p);
-    cpp_int s = fastExpMod(public_key, y, pub.p);
+    cpp_int A = fastExpMod(pub.g, a, pub.p);
+    cpp_int s = fastExpMod(public_key, a, pub.p);
 
-    M = (M * s) % pub.p; //cipertext
-    return std::make_pair(B, M);
+    m = (m * s) % pub.p; //cipertext
+    return std::make_pair(A, m);
 }
 
 
 cpp_int Elgamal::decrypt(lg_key priv, std::pair<cpp_int, cpp_int> msg) const {
     cpp_int private_key = priv.x;
-    cpp_int B = msg.first;
-    cpp_int M = msg.second;
+    cpp_int A = msg.first;
+    cpp_int m = msg.second;
 
-    cpp_int shared_secret = fastExpMod(B, private_key, priv.p);
+    cpp_int shared_secret = fastExpMod(A, private_key, priv.p);
     cpp_int s_multiplicative_inverse = multiplicativeInverse(shared_secret, priv.p);
     
-    M = (M * s_multiplicative_inverse) % priv.p;
-    return M;
+    m = (m * s_multiplicative_inverse) % priv.p;
+    return m;
 }
 
 
