@@ -30,7 +30,6 @@ cpp_int getPrime(){
 template<typename T>
 constexpr T fastExpMod(T g, T x, T p){
     //static_assert(std::is_arithmetic<T>::value, "[x] fastExpMod is only well defined for numeric-like types.");
-    
     T ret;
     if(1 & x)
         ret = g;
@@ -50,7 +49,6 @@ constexpr T fastExpMod(T g, T x, T p){
 template<typename T>
 constexpr T _gcd(T a, T b){
     //static_assert(std::is_arithmetic<T>::value, "[x] fastExpMod is only well defined for numeric-like types.");
-    
     if(a < 0) a = -a; // no re-asignment -->> is fast only 2 rax
     if(b < 0) b = -b;
     while(b != 0){
@@ -66,31 +64,29 @@ constexpr T _gcd(T a, T b){
 template<typename T>
 T extendedEuclid(T a, T b, T &x, T &y) {
     //static_assert(std::is_arithmetic<T>::value, "[x] fastExpMod is only well defined for numeric-like types.");
-
     x = 1;
     y = 0;
-
     if (0 == b) return a;
 
-    T new_x = 0;
-    T new_y = 1;
-    T new_r = b;
+    T x1 = 0;
+    T y1 = 1;
+    T r1 = b;
     T r = a;
     T quotient, tmp;
-    while (new_r) {
-        quotient = r / new_r;
+    while (r1) {
+        quotient = r / r1;
 
         tmp = r;
-        r = new_r;
-        new_r = tmp - quotient * new_r;
+        r = r1;
+        r1 = tmp - quotient * r1;
 
         tmp = x;
-        x = new_x;
-        new_x = tmp - quotient * new_x;
+        x = x1;
+        x1 = tmp - quotient * x1;
 
         tmp = y;
-        y = new_y;
-        new_y = tmp - quotient * new_y;
+        y = y1;
+        new_y = tmp - quotient * y1;
     }
     return r;
 }
