@@ -2,8 +2,6 @@
 #include <type_traits>
 #include <iostream>
 #include <time.h> 
-
-
 #include <boost/multiprecision/miller_rabin.hpp>
 #include <boost/multiprecision/cpp_int.hpp>
 #include <boost/random.hpp>
