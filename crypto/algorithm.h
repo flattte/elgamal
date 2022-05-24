@@ -42,7 +42,6 @@ constexpr T fastExpMod(T g, T x, T p){
         if(x & 1) // >> multiply only accumulated powers
             ret = (ret * g) % p;        
     }
-
     return ret;
 }
 
@@ -56,7 +55,6 @@ constexpr T _gcd(T a, T b){
         if(a == 0) return b;
         b %= a;
     }
-
     return a;
 }
 
@@ -99,7 +97,6 @@ T multiplicativeInverse(T a, T m){
     if(r > 1){
         return -1;
     }
-
     return x < 0 ? x + m : x;
 }
 
