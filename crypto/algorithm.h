@@ -17,9 +17,11 @@ cpp_int getPrime(){
     independent_bits_engine<mt11213b, 512, cpp_int> gen(base_gen);
 
     cpp_int prime;
+    cpp_int q;
     do{
         prime = gen();
-    } while( !miller_rabin_test(prime, 25));
+        q = (prime - 1)/2;
+    } while(!miller_rabin_test(prime, 25) && !miller_rabin_test(q, 25));
 
     return prime;
 }
