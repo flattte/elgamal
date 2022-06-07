@@ -1,3 +1,3 @@
 # elgamal
 
-implementation of lgamal encryption scheme
+implementation of elgamal encryption scheme
