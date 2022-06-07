@@ -7,23 +7,22 @@
 
 typedef boost::multiprecision::cpp_int cpp_int;
 
-int main(){
-    
+int main(int argc, char **argv){
+
     std::pair<lg_key, lg_key> keys = Elgamal::keyGen();
 
-    // std::cout << "pub ";
-    // Elgamal::printHex(keys.first.g);
-    // Elgamal::printHex(keys.first.x);
-    // Elgamal::printHex(keys.first.p);
+    std::cout << "pub ";
+    std::cout << "generator: :: ";  Elgamal::printHex(keys.first.g, 32);
+    std::cout << "private key :: "; Elgamal::printHex(keys.first.x, 32);
+    std::cout << "p prime :: ";     Elgamal::printHex(keys.first.p, 32);
+    std::cout << "public :: ";        Elgamal::printHex(keys.second.x, 32);
+    std::cout << std::endl;
 
-    // std::cout << "priv ";
-    // Elgamal::printHex(keys.second.g);
-    // Elgamal::printHex(keys.second.x);
-    // Elgamal::printHex(keys.second.p);
+    std::string m = argv[1];
+    cpp_int msg(m);
 
 
-    cpp_int msg =278362135621361736218;
-    std::cout << "true plaintext :: "; 
+    std::cout << "true plaintext :: ";
     Elgamal::printHex(msg, 16);
     std::cout << "\n\n";
 
@@ -33,7 +32,6 @@ int main(){
     std::cout << "ciphertext :: ";
     Elgamal::printHex(cipher.second, 16);
     std::cout << "\n\n";
-    std::cout << cipher.first;
 
     cpp_int plaintext = engine.decrypt(keys.second, cipher);
     std::cout << "plaintext ::";
