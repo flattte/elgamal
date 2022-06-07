@@ -20,7 +20,7 @@ cpp_int getPrime(){
     cpp_int q;
     do{
         prime = gen();
-        q = (prime - 1)/2;
+        q = 2*prime + 1;
     } while(!miller_rabin_test(prime, 25) && !miller_rabin_test(q, 25));
 
     return prime;
