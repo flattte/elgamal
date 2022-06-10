@@ -81,23 +81,3 @@ void Elgamal::printHex(const cpp_int& num, size_t row=8){
     }
     std::cout << std::endl;
 }
-
-
-void Elgamal::setM(cpp_int m){
-    hold_M = m;
-}
-
-
-void Elgamal::setC(cpp_int c){
-    hold_C = c;
-}
-
-
-cpp_int Elgamal::getM() const {
-    return hold_M;
-}
-
-
-cpp_int Elgamal::getC() const {
-    return hold_C;
-}
